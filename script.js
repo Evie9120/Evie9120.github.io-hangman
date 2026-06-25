@@ -28,24 +28,14 @@ const wordsByTopic = {
         'traveling', 'waiting', 'watching', 'winning', 'working', 'writing'
     ],
     Countries: [
-        'afghanistan', 'antigua and barbuda', 'argentina', 'australia', 'bahamas', 'bangladesh',
-        'barbados', 'belize', 'bhutan', 'bolivia', 'brazil', 'brunei', 'canada', 'cambodia', 'chile',
-        'china', 'colombia', 'costarica', 'cuba', 'dominica', 'dominican republic', 'ecuador', 'egypt',
-        'el salvador', 'france', 'germany', 'grenada', 'guatemala', 'haiti', 'honduras', 'india',
-        'indonesia', 'italy', 'jamaica', 'japan', 'laos', 'malaysia', 'maldives', 'mexico', 'myanmar',
-        'nepal', 'nicaragua', 'nigeria', 'pakistan', 'panama', 'paraguay', 'peru', 'philippines',
-        'saint lucia', 'singapore', 'south africa', 'spain', 'sri lanka', 'thailand', 'uruguay', 'venezuela', 'vietnam'
+        'afghanistan', 'argentina', 'australia', 'bahamas', 'bangladesh', 'barbados', 'belize', 'bhutan', 
+        'bolivia', 'brazil', 'brunei', 'canada', 'cambodia', 'chile', 'china', 'colombia', 'costarica', 
+        'cuba', 'dominica', 'ecuador', 'egypt', 'france', 'germany', 'grenada', 'guatemala', 'haiti', 
+        'honduras', 'india', 'indonesia', 'italy', 'jamaica', 'japan', 'laos', 'malaysia', 'maldives', 
+        'mexico', 'myanmar', 'nepal', 'nicaragua', 'nigeria', 'pakistan', 'panama', 'paraguay', 'peru', 
+        'philippines', 'singapore', 'spain', 'thailand', 'uruguay', 'venezuela', 'vietnam'
     ]
 };
-
-const topicWeights = {
-    Animals: { easy: 3, medium: 3, hard: 2 },
-    Fruits: { easy: 3, medium: 3, hard: 2 },
-    Verbs: { easy: 3, medium: 3, hard: 2 },
-    Countries: { easy: 3, medium: 3, hard: 2 }
-};
-
-const topics = Object.keys(wordsByTopic);
 
 let currentWord = '';
 let currentTopic = 'Animals';
@@ -59,18 +49,25 @@ let gameOver = false;
 let paused = false;
 let soundEnabled = true;
 
+// DOM Hooking elements
 const homeScreen = document.getElementById('homeScreen');
 const app = document.getElementById('app');
 const setupModal = document.getElementById('setupModal');
 const pauseModal = document.getElementById('pauseModal');
 const gameOverModal = document.getElementById('gameOverModal');
+
 const startBtn = document.getElementById('startBtn');
 const confirmStartBtn = document.getElementById('confirmStartBtn');
 const resumeBtn = document.getElementById('resumeBtn');
 const quitToMenuBtn = document.getElementById('quitToMenuBtn');
 const gameOverMenuBtn = document.getElementById('gameOverMenuBtn');
 const pauseBtn = document.getElementById('pauseBtn');
+
+// Sound Toggles
 const menuSoundToggle = document.getElementById('menuSoundToggle');
+const gameSoundToggle = document.getElementById('gameSoundToggle');
+const pauseSoundToggle = document.getElementById('pauseSoundToggle');
+
 const topicSelect = document.getElementById('topicSelect');
 const difficultySelect = document.getElementById('difficultySelect');
 const wordDisplay = document.getElementById('wordDisplay');
@@ -85,7 +82,6 @@ const resetBtn = document.getElementById('resetBtn');
 const playAgainBtn = document.getElementById('playAgainBtn');
 
 let highestScore = Number(localStorage.getItem('hangmanHighestScore') || 0);
-
 let audioContext;
 let bgmInterval;
 
@@ -98,17 +94,6 @@ const hangmanStages = [
     `   +---+\n   O   |\n  /|\\  |\n  /    |\n      ===`,
     `   +---+\n   O   |\n  /|\\  |\n  / \\  |\n      ===`
 ];
-
-function pickWord() {
-    const list = wordsByTopic[currentTopic];
-    let chosen = list[Math.floor(Math.random() * list.length)];
-
-    if (currentDifficulty === 'hard') {
-        chosen = list[Math.floor(Math.random() * list.length)];
-    }
-
-    return chosen;
-}
 
 function getLevelWordPool() {
     const list = wordsByTopic[currentTopic];
@@ -188,8 +173,6 @@ function playLoseSound() {
 function startBgm() {
     if (!soundEnabled || bgmInterval) return;
     const ctx = ensureAudioContext();
-    
-    // An atmospheric, simple low-synth background note cycle loop
     const notes = [196.00, 220.00, 261.63, 220.00];
     let index = 0;
 
@@ -202,7 +185,7 @@ function startBgm() {
         oscillator.frequency.value = notes[index % notes.length];
         
         gainNode.gain.setValueAtTime(0.0001, ctx.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.015, ctx.currentTime + 0.1);
+        gainNode.gain.linearRampToValueAtTime(0.012, ctx.currentTime + 0.1);
         gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.7);
         
         oscillator.connect(gainNode);
@@ -224,19 +207,15 @@ function stopBgm() {
     }
 }
 
-function updateSoundToggle() {
-    menuSoundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+function updateSoundTogglesUI() {
+    const label = soundEnabled ? '🔊' : '🔇';
+    menuSoundToggle.textContent = label;
+    gameSoundToggle.textContent = label;
+    pauseSoundToggle.querySelector('span').textContent = label;
 }
 
-function showSetupModal() {
-    setupModal.hidden = false;
-    topicSelect.value = currentTopic;
-    difficultySelect.value = currentDifficulty;
-}
-
-function hideSetupModal() {
-    setupModal.hidden = true;
-}
+function showSetupModal() { setupModal.hidden = false; }
+function hideSetupModal() { setupModal.hidden = true; }
 
 function showPauseModal() {
     pauseModal.hidden = false;
@@ -253,9 +232,7 @@ function showGameOverModal(message) {
     gameOverModal.hidden = false;
 }
 
-function hideGameOverModal() {
-    gameOverModal.hidden = true;
-}
+function hideGameOverModal() { gameOverModal.hidden = true; }
 
 function updateUI() {
     wordDisplay.textContent = displayWord();
@@ -277,49 +254,26 @@ function updateUI() {
 
 function finishRound(isWin) {
     if (gameOver) return;
-
     gameOver = true;
-    hideGameOverModal();
     stopBgm();
-    hideSetupModal();
-    hidePauseModal();
 
     if (isWin) {
         const pointsEarned = 10 + level * 2;
         score += pointsEarned;
         level++;
         updateHighestScore();
-        statusMsg.innerHTML = `<span class="win">🎉 You won! +${pointsEarned} points!</span>`;
+        statusMsg.innerHTML = `<span class="win">🎉 Subroutine Cleaned! +${pointsEarned} Core Fragments</span>`;
         playWinSound();
     } else {
-        statusMsg.innerHTML = `<span class="lose">💀 Game Over! The word was: <strong>${currentWord}</strong></span>`;
+        statusMsg.innerHTML = `<span class="lose">💀 Fatal Crash! Target Word: <strong>${currentWord}</strong></span>`;
         playLoseSound();
-        showGameOverModal(`The word was: ${currentWord}\nFinal score: ${score}`);
+        showGameOverModal(`Decryption failure.<br>Matrix signature: <strong>${currentWord}</strong><br>Runtime Score: ${score}`);
     }
-
     updateUI();
-}
-
-function checkWinLose() {
-    if (gameOver || paused || !currentWord) return false;
-
-    const wordRevealed = currentWord.split('').every(ch => guessedLetters.includes(ch));
-    if (wordRevealed) {
-        finishRound(true);
-        return true;
-    }
-
-    if (wrongCount >= maxWrong) {
-        finishRound(false);
-        return true;
-    }
-
-    return false;
 }
 
 function handleGuess(ch) {
     if (gameOver || paused || guessedLetters.includes(ch)) return;
-
     guessedLetters.push(ch);
 
     if (currentWord.includes(ch)) {
@@ -330,7 +284,14 @@ function handleGuess(ch) {
     }
 
     updateUI();
-    checkWinLose();
+    
+    // Check states
+    const wordRevealed = currentWord.split('').every(ch => guessedLetters.includes(ch));
+    if (wordRevealed) {
+        finishRound(true);
+    } else if (wrongCount >= maxWrong) {
+        finishRound(false);
+    }
 }
 
 function configureRound() {
@@ -343,8 +304,7 @@ function configureRound() {
     gameOver = false;
     paused = false;
     
-    statusMsg.innerHTML = 'Guess a letter!';
-    statusMsg.className = '';
+    statusMsg.innerHTML = 'Scan terminal input keys...';
     
     hideSetupModal();
     hideGameOverModal();
@@ -355,22 +315,7 @@ function configureRound() {
         ensureAudioContext();
         startBgm();
     }
-    
     updateUI();
-}
-
-function startRound() {
-    homeScreen.hidden = true;
-    app.hidden = false;
-    showSetupModal();
-}
-
-function startGame() {
-    startRound();
-}
-
-function resetGame() {
-    configureRound();
 }
 
 function returnToMainMenu() {
@@ -387,8 +332,8 @@ function returnToMainMenu() {
     level = 1;
     gameOver = false;
     paused = false;
+    pauseBtn.textContent = '⏸ Pause';
     statusMsg.innerHTML = 'Guess a letter!';
-    statusMsg.className = '';
     updateHighestScore();
     updateUI();
 }
@@ -407,29 +352,32 @@ function togglePause() {
 
 function toggleSound() {
     soundEnabled = !soundEnabled;
-    updateSoundToggle();
+    updateSoundTogglesUI();
     ensureAudioContext();
 
     if (soundEnabled) {
-        playTone(660, 0.12, 'sine', 0.06);
-        startBgm();
+        playTone(660, 0.12, 'sine', 0.04);
+        if (!gameOver && !paused && !app.hidden) {
+            startBgm();
+        }
     } else {
         stopBgm();
     }
 }
 
+// Global Event Routing
 highestScoreDisplay.textContent = highestScore;
-updateSoundToggle();
+updateSoundTogglesUI();
 
-startBtn.addEventListener('click', startGame);
+startBtn.addEventListener('click', () => { showSetupModal(); });
 confirmStartBtn.addEventListener('click', configureRound);
 resumeBtn.addEventListener('click', togglePause);
 quitToMenuBtn.addEventListener('click', returnToMainMenu);
 gameOverMenuBtn.addEventListener('click', returnToMainMenu);
-playAgainBtn.addEventListener('click', () => {
-    hideGameOverModal();
-    configureRound();
-});
-resetBtn.addEventListener('click', resetGame);
+playAgainBtn.addEventListener('click', configureRound);
+resetBtn.addEventListener('click', configureRound);
 pauseBtn.addEventListener('click', togglePause);
+
 menuSoundToggle.addEventListener('click', toggleSound);
+gameSoundToggle.addEventListener('click', toggleSound);
+pauseSoundToggle.addEventListener('click', toggleSound);
