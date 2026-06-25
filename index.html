@@ -3,52 +3,53 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hangman</title>
+    <title>🪢 Cyber Hangman</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <div class="container" id="homeScreen">
-        <button class="sound-toggle" id="menuSoundToggle" aria-label="Toggle sound">🔊</button>
+        <button class="sound-toggle btn-icon" id="menuSoundToggle" aria-label="Toggle sound">🔊</button>
         <h1>🪢 HANGMAN</h1>
-        <p class="intro">Guess the hidden word before the hangman is complete.</p>
+        <p class="intro">Crack the encrypted word before the grid collapses.</p>
 
         <div class="instructions">
             <h2>How to Play</h2>
             <ol>
-                <li>Click a letter to guess.</li>
-                <li>Correct guesses reveal letters in the word.</li>
-                <li>Wrong guesses add one part to the hangman.</li>
-                <li>Win the round to earn points and move up a level.</li>
+                <li>Select or click an alphanumeric terminal key to make a guess.</li>
+                <li>Correct matrix matches decrypt hidden data channels.</li>
+                <li>Incorrect matches isolate critical subroutines (7 attempts max).</li>
+                <li>Iterate sequences successfully to level up your integrity index.</li>
             </ol>
         </div>
 
         <div class="score-card">
-            Previous Highest Score: <span id="highestScore">0</span>
+            High Score Record: <span id="highestScore">0</span>
         </div>
 
-        <button class="start-btn" id="startBtn">Start Game</button>
+        <button class="start-btn" id="startBtn">Initialize Terminal</button>
     </div>
 
     <div class="container" id="app" hidden>
         <div class="top-controls">
             <button class="pause-btn" id="pauseBtn">⏸ Pause</button>
+            <button class="sound-toggle btn-icon" id="gameSoundToggle" aria-label="Toggle sound">🔊</button>
         </div>
 
-        <h1>🪢 HANGMAN</h1>
-        <div class="topic" id="topicDisplay">Topic: <span id="topicText">Animals</span></div>
+        <h1>🪢 TERMINAL</h1>
+        <div class="topic" id="topicDisplay">Data Set: <span id="topicText">Animals</span></div>
         <div class="word" id="wordDisplay">_ _ _ _ _</div>
         <div class="hangman-art" id="hangmanArt"></div>
         <div class="letters" id="letterButtons"></div>
         <div class="status" id="statusMessage">Guess a letter!</div>
-        <button class="reset-btn" id="resetBtn">Next! </button>
+        <button class="reset-btn" id="resetBtn">Next Protocol</button>
         <div class="score" id="scoreDisplay">Score: 0 | Level: 1</div>
     </div>
 
     <div class="modal-overlay" id="setupModal" hidden>
         <div class="modal-card">
-            <h2>Choose Your Challenge</h2>
+            <h2>Initialize Sequence</h2>
             <div class="setup-group">
-                <label for="topicSelect">Topic</label>
+                <label for="topicSelect">Target Database</label>
                 <select id="topicSelect">
                     <option>Animals</option>
                     <option>Countries</option>
@@ -57,31 +58,34 @@
                 </select>
             </div>
             <div class="setup-group">
-                <label for="difficultySelect">Difficulty</label>
+                <label for="difficultySelect">Complexity Index</label>
                 <select id="difficultySelect">
-                    <option value="easy">Easy</option>
-                    <option value="hard">Hard</option>
-                    <option value="medium">Medium</option>
+                    <option value="easy">Easy (Short)</option>
+                    <option value="medium" selected>Medium (Standard)</option>
+                    <option value="hard">Hard (Long)</option>
                 </select>
             </div>
-            <button class="start-btn" id="confirmStartBtn">Start Round</button>
+            <button class="start-btn" id="confirmStartBtn">Deploy Vector</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="pauseModal" hidden>
         <div class="modal-card small-modal">
-            <h2>Paused</h2>
-            <button class="start-btn" id="resumeBtn">Resume</button>
-            <button class="reset-btn" id="quitToMenuBtn">Return to Main Menu</button>
+            <h2>System Paused</h2>
+            <div style="margin-bottom: 1.5rem;">
+                <button class="start-btn" id="pauseSoundToggle" style="padding: 0.5rem; font-size: 0.9rem;">Toggle Audio: <span>🔊</span></button>
+            </div>
+            <button class="start-btn" id="resumeBtn">Resume Sequence</button>
+            <button class="reset-btn" id="quitToMenuBtn" style="margin-top: 0.8rem;">Purge & Exit</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="gameOverModal" hidden>
         <div class="modal-card small-modal">
-            <h2>Game Over</h2>
+            <h2>Connection Severed</h2>
             <p id="gameOverText"></p>
-            <button class="start-btn" id="playAgainBtn">Play Again</button>
-            <button class="reset-btn" id="gameOverMenuBtn" style="margin-top: 0.5rem;">Return to Start Page</button>
+            <button class="start-btn" id="playAgainBtn">Reboot Sequence</button>
+            <button class="reset-btn" id="gameOverMenuBtn" style="margin-top: 0.8rem;">Return to Hub</button>
         </div>
     </div>
 
