@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hangman</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container" id="homeScreen">
+        <button class="sound-toggle" id="menuSoundToggle" aria-label="Toggle sound">🔊</button>
+        <h1>🪢 HANGMAN</h1>
+        <p class="intro">Guess the hidden word before the hangman is complete.</p>
+
+        <div class="instructions">
+            <h2>How to Play</h2>
+            <ol>
+                <li>Click a letter to guess.</li>
+                <li>Correct guesses reveal letters in the word.</li>
+                <li>Wrong guesses add one part to the hangman.</li>
+                <li>Win the round to earn points and move up a level.</li>
+            </ol>
+        </div>
+
+        <div class="score-card">
+            Previous Highest Score: <span id="highestScore">0</span>
+        </div>
+
+        <button class="start-btn" id="startBtn">Start Game</button>
+    </div>
+
+    <div class="container" id="app" hidden>
+        <div class="top-controls">
+            <button class="pause-btn" id="pauseBtn">⏸ Pause</button>
+        </div>
+
+        <h1>🪢 HANGMAN</h1>
+        <div class="topic" id="topicDisplay">Topic: <span id="topicText">Animals</span></div>
+        <div class="word" id="wordDisplay">_ _ _ _ _</div>
+        <div class="hangman-art" id="hangmanArt"></div>
+        <div class="letters" id="letterButtons"></div>
+        <div class="status" id="statusMessage">Guess a letter!</div>
+        <button class="reset-btn" id="resetBtn">Next! </button>
+        <div class="score" id="scoreDisplay">Score: 0 | Level: 1</div>
+    </div>
+
+    <div class="modal-overlay" id="setupModal" hidden>
+        <div class="modal-card">
+            <h2>Choose Your Challenge</h2>
+            <div class="setup-group">
+                <label for="topicSelect">Topic</label>
+                <select id="topicSelect">
+                    <option>Animals</option>
+                    <option>Countries</option>
+                    <option>Fruits</option>
+                    <option>Verbs</option>
+                </select>
+            </div>
+            <div class="setup-group">
+                <label for="difficultySelect">Difficulty</label>
+                <select id="difficultySelect">
+                    <option value="easy">Easy</option>
+                    <option value="hard">Hard</option>
+                    <option value="medium">Medium</option>
+                </select>
+            </div>
+            <button class="start-btn" id="confirmStartBtn">Start Round</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="pauseModal" hidden>
+        <div class="modal-card small-modal">
+            <h2>Paused</h2>
+            <button class="start-btn" id="resumeBtn">Resume</button>
+            <button class="reset-btn" id="quitToMenuBtn">Return to Main Menu</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="gameOverModal" hidden>
+        <div class="modal-card small-modal">
+            <h2>Game Over</h2>
+            <p id="gameOverText"></p>
+            <button class="start-btn" id="playAgainBtn">Play Again</button>
+            <button class="reset-btn" id="gameOverMenuBtn" style="margin-top: 0.5rem;">Return to Start Page</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
