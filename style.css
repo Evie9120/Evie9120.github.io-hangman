@@ -1,0 +1,255 @@
+* {
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    background: #1e1e2f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #2d2d44;
+    padding: 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    width: 500px;
+    max-width: 95%;
+    position: relative;
+}
+
+h1 {
+    color: #f5e9d8;
+    margin-top: 0;
+    letter-spacing: 2px;
+}
+
+.intro {
+    color: #f5e9d8;
+    margin-bottom: 1rem;
+}
+
+.instructions {
+    background: #1a1a2e;
+    color: #f5e9d8;
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: left;
+    margin: 1rem 0;
+}
+
+.instructions h2 {
+    margin-top: 0;
+    font-size: 1rem;
+}
+
+.instructions ol {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.score-card {
+    color: #b8a9c9;
+    font-size: 1rem;
+    margin: 1rem 0;
+}
+
+.sound-toggle,
+.menu-btn,
+.pause-btn {
+    background: #3d3d5c;
+    color: #f5e9d8;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+}
+
+.sound-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1rem;
+}
+
+.top-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.start-btn {
+    background: #7ddfb3;
+    color: #1e1e2f;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+}
+
+.start-btn:hover {
+    background: #9be8c7;
+    transform: scale(1.03);
+}
+
+.topic {
+    color: #b8a9c9;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.word {
+    font-size: 2.8rem;
+    letter-spacing: 0.6rem;
+    color: #f5e9d8;
+    background: #1a1a2e;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    margin: 0.5rem 0 1rem;
+    font-weight: bold;
+}
+
+.hangman-art {
+    font-family: monospace;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    color: #e0d6c8;
+    background: #1a1a2e;
+    padding: 0.8rem;
+    border-radius: 1rem;
+    margin: 0.5rem 0;
+    white-space: pre;
+    min-height: 150px;
+}
+
+.letters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 1.2rem 0;
+}
+
+.letters button {
+    background: #3d3d5c;
+    color: #f5e9d8;
+    border: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.6rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.15s;
+    box-shadow: 0 3px 0 #1a1a2e;
+}
+
+.letters button:hover:not(:disabled) {
+    background: #5a5a7a;
+    transform: scale(1.05);
+}
+
+.letters button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.status {
+    color: #f5e9d8;
+    font-size: 1.1rem;
+    margin: 0.8rem 0;
+}
+
+.reset-btn {
+    background: #e07c5c;
+    color: #1e1e2f;
+    border: none;
+    padding: 0.8rem 2.2rem;
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 0 #9e5a40;
+    width: 100%;
+}
+
+.reset-btn:hover {
+    background: #f08c6c;
+    transform: scale(1.03);
+}
+
+.score {
+    color: #b8a9c9;
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.modal-card {
+    background: #2d2d44;
+    color: #f5e9d8;
+    width: 420px;
+    max-width: 90%;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+
+.small-modal {
+    width: 320px;
+}
+
+.setup-group {
+    margin: 1rem 0;
+    text-align: left;
+}
+
+.setup-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.setup-group select {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 0.6rem;
+    border: none;
+}
+
+.message {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.win {
+    color: #7ddfb3;
+}
+
+.lose {
+    color: #e07c5c;
+}
+
+[hidden] {
+    display: none !important;
+}
